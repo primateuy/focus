@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="project_task_view_form_inherited" model="ir.ui.view">
+        <field name="name">project.task.view.form.inherit.timesheet.lock</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='privacy_visibility']" position="after">
+                <!-- <div> -->
+                    <group>
+                        <!-- <label for="project_timeSheet_lockDate"/> -->
+                        <field name="project_timeSheet_lockDate"/>
+                    </group>
+                <!-- </div> -->
+            </xpath>
+        </field>
+    </record>
+</odoo>

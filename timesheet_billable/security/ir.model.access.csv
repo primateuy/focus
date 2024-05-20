@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_focus_timesheet_focus_timesheet,focus_timesheet.focus_timesheet,model_focus_timesheet_focus_timesheet,base.group_user,1,1,1,1

@@ -1,0 +1,17 @@
+<odoo>
+    <data>
+
+
+        <record id="timesheet_view_tree_focus" model="ir.ui.view">
+            <field name="name">account.analytic.line.view.tree.focus</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='unit_amount']" position="after">
+                    <field name="billable_hours" widget="timesheet_uom" sum="Total" groups="timesheet_billable.view_billable_hours"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

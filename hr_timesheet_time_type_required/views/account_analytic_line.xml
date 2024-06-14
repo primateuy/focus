@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="hr_timesheet_line_form">
+        <field name="name">account.analytic.line.view.form</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_form" />
+        <field name="arch" type="xml">
+            <field name="time_type_id" position="before">
+                <field name="is_time_type_required" invisible="1" />
+            </field>
+            <field name="time_type_id" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'required':[('is_time_type_required','=',True)]}</attribute>
+            </field>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="account_analytic_line_tree">
+        <field name="name">account.analytic.line.view.tree</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree" />
+        <field name="arch" type="xml">
+            <field name="time_type_id" position="before">
+                <field name="is_time_type_required" invisible="1" />
+            </field>
+            <field name="time_type_id" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'required':[('is_time_type_required','=',True)]}</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>

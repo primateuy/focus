@@ -3,7 +3,7 @@
     "name": "Hr Timesheet Time Type Required",
     "summary": """
         Set time type on timesheet as a mandatory field""",
-    "version": "16.0.0",
+    "version": "16.0.1",
     "license": "AGPL-3",
     "author": "Primate UY",
     "website": "https://www.primate.uy/",

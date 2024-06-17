@@ -7,7 +7,7 @@ class AccountAnalyticLine(models.Model):
     _inherit = "account.analytic.line"
 
     is_time_type_required = fields.Boolean(
-        string="Is Time Type Required", related="project_id.is_timesheet_task_required"
+        string="Is Time Type Required", related="project_id.is_timesheet_time_type_required"
     )
 
     @api.constrains("project_id", "time_type_id")

@@ -18,8 +18,12 @@ class AccountAnalyticLineTimesheet(models.Model):
 
     def write(self, vals):
         if 'billable_hours' in vals and len(vals) == 1:
-            self.update_billable_hours(vals['billable_hours'])
-            return True
+            if self.company_id.timesheet_lock and self.date < self.company_id.timesheet_lock:
+                raise UserError(
+                    _("You can not create/update timesheet before the date %s.") % self.company_id.timesheet_lock)
+            else:
+                self.update_billable_hours(vals['billable_hours'])
+                return True
 
         return super(AccountAnalyticLineTimesheet, self).write(vals)
          

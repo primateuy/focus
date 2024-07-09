@@ -1,16 +1,13 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Fix Timesheet Lock',
-    'version': '16.0.1.0',
+    'version': '16.1.0.0',
     'author': 'PrimateUY',
-    'website': 'https://www.silvertouch.com',
+    'website': 'https://www.primate.uy/',
     'category': 'Analytic',
-    'license': 'OPL-1',
     'description': """
-        This addon is to prevent the update of Timesheet by user after it is sumbmitted to the client.
+        Bloquea la posibilidad de modificar horas facturables anteriores a la fecha 'Timesheet LockDate', establecida por configuración.
     """,
-    'price': 00,
-    'currency': 'EUR',
     'depends': ['sttl_lock_timesheets', 'timesheet_billable' ,'hr_timesheet', 'base'],
     'installable': True,
     'application': False,

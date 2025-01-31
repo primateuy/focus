@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <!---->
+
+    <template id="cfe_xml_entrada_payment">
+        <XMLEntrada>
+            <Datos>
+                <Dato>
+                    <Valor>
+                        <startcdata/>
+                        <bandeja>
+                            <t t-set="indicador_facturacion" t-value="docs.l10n_latam_document_type_id.dgi_indicador_facturacion" />
+                            <BanCodTpoDocRec t-out="docs.partner_id.l10n_latam_identification_type_id.code"></BanCodTpoDocRec>
+                            <BanCodPaisRec t-out="docs.partner_id.country_id.code"></BanCodPaisRec>
+                            <BanNumDocRec t-if="docs.partner_id.tiene_documento_nacional()" t-out="docs.partner_id.vat"></BanNumDocRec>
+                            <BanNomRec t-out="docs.partner_id.name"></BanNomRec>
+                            <BanDirRec t-if="docs.partner_id.street" t-out="docs.partner_id.street"></BanDirRec>
+                            <BanCiuRec t-if="docs.partner_id.city_id.name" t-out="docs.partner_id.city_id.name"></BanCiuRec>
+                            <BanDepRec t-if="docs.partner_id.state_id" t-out="docs.partner_id.state_id.name"></BanDepRec>
+                            <EmpCod t-out="company.company_code"></EmpCod>
+                            <BanDocCodERP t-out="docs.id"></BanDocCodERP>
+                            <BanTpoCFE t-out="cfe_type"></BanTpoCFE>
+                            <BanFchCFE t-out="docs.date.strftime('%Y-%m-%d')"></BanFchCFE>
+                            <BanForPag>1</BanForPag>
+                            <BanFchVen></BanFchVen><!--no enviamos nada-->
+                            <BanCodPosRec t-if="docs.partner_id.zip" t-out="docs.partner_id.zip"></BanCodPosRec>
+                            <BanTpoMonTra t-out="docs.currency_id.name"></BanTpoMonTra>
+                            <BanTpoCam t-if="docs.currency_id != company.currency_id" t-out="docs.get_currency_rate()"></BanTpoCam>
+                            <BanCanLin>1</BanCanLin>
+                            <BanMonTotPag t-out="monto_total"></BanMonTotPag>
+                            <BanIndCzaProp>1</BanIndCzaProp>
+                            <BanTotMonRet t-out="0.00"></BanTotMonRet>
+                            <BanMonNoFac t-out="monto_total"></BanMonNoFac>
+                            <BanXMLCFE></BanXMLCFE>
+                            <BanGenRepImp></BanGenRepImp>
+                            <BanSucCodErp t-out="docs.dgi_sucursal_id.sucursal_code"></BanSucCodErp>
+                            <BanPeCodErp></BanPeCodErp>
+                            <BanAdenda t-if="docs.ref" t-out="docs.ref"></BanAdenda>
+                            <BanTpoDocERP></BanTpoDocERP>
+                            <BanNumDocERP></BanNumDocERP>
+                            <BanSerDocERP></BanSerDocERP>
+                            <BanRutaPDF></BanRutaPDF>
+                            <BanEsEmisor></BanEsEmisor>
+                            <BanLin>
+                                <BanLinItem t-foreach="payments" t-as="payment">
+                                    <NumLin t-out="int(payment_index + 1)"></NumLin>
+                                    <IndFac t-out="indicador_facturacion"></IndFac>
+                                    <ItemNom t-out="payment.name"></ItemNom>
+                                    <ItemDes t-out="payment.name"></ItemDes>
+                                    <ItemCan>1</ItemCan>
+                                    <ItemUniMed>N/A</ItemUniMed>
+                                    <ItemPreUni t-out="payment.amount_total_in_currency_signed"></ItemPreUni>
+                                    <ItemMon t-out="payment.amount_total_in_currency_signed"></ItemMon>
+                                </BanLinItem>
+                            </BanLin>
+
+                            <t t-set="anulacion_de_recibo" t-value="indicador_facturacion == '7'"/>
+                            <BanInfRef>
+                                <t t-set="related_invoices" t-value="docs.obtener_facturas_relacionadas()" />
+                                <t t-if="related_invoices">
+                                    <BanInfRefItem t-foreach="related_invoices" t-as="invoice">
+                                        <t t-if="indicador_cobranza">
+                                            <InfRefInd>1</InfRefInd>
+                                            <InfRefRazRef  t-out="docs.get_ref(anulacion_de_recibo)"></InfRefRazRef>
+                                        </t>
+                                        <t t-else="">
+                                            <InfRefInd></InfRefInd>
+                                            <!-- Tipo CFE de referencia [String(20)] -->
+                                            <InfRefCFERef t-out="invoice.cfe_type"></InfRefCFERef>
+                                            <!-- Serie del CFE de referencia [String(2)] -->
+                                            <InfRefCFESerRef t-out="invoice.serie()"></InfRefCFESerRef>
+                                            <!-- Número del CFE dereferencia [Integer] -->
+                                            <InfRefCFENumRef t-out="invoice.numero_cfe()"></InfRefCFENumRef>
+                                            <!-- Razón referencia [String(90)] -->
+                                            <InfRefRazRef  t-out="docs.get_ref(anulacion_de_recibo)"></InfRefRazRef>
+                                            <!-- Fecha CFE de referencia [Date] -->
+                                            <InfRefFchRef t-out="invoice.invoice_date.strftime('%Y-%m-%d')"></InfRefFchRef>
+
+                                        </t>
+                                        <InfRefNum t-out="int(invoice_index + 1)"></InfRefNum>
+                                    </BanInfRefItem>
+                                </t>
+                                <t t-else="">
+                                    <BanInfRefItem>
+                                        <InfRefNum>1</InfRefNum>
+                                        <InfRefRazRef  t-out="docs.get_ref(anulacion_de_recibo)"></InfRefRazRef>
+                                        <InfRefInd>1</InfRefInd>
+                                    </BanInfRefItem>
+                                </t>
+                            </BanInfRef>
+
+                        </bandeja>
+                        <endcdata/>
+                    </Valor>
+                </Dato>
+            </Datos>
+        </XMLEntrada>
+    </template>
+
+
+
+
+</odoo>

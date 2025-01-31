@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <template id="cfe_xml_bandeja">
+        <t t-set="company" t-value="docs.company_id" />
+        <bandeja>
+            <WSUser t-out="company.cfe_user"></WSUser>
+            <WSPassword t-out="company.cfe_password"></WSPassword>
+            <t t-if="docs.get_es_receptor()">
+                <BanCodTpoDocRec t-out="docs.partner_id.l10n_latam_identification_type_id.code"></BanCodTpoDocRec>
+                <BanCodPaisRec t-out="docs.partner_id.country_id.code"></BanCodPaisRec>
+                <BanNumDocRec t-if="docs.partner_id.tiene_documento_nacional()" t-out="docs.partner_id.vat"></BanNumDocRec>
+                <BanNumDocRecExt t-if="not docs.partner_id.tiene_documento_nacional()" t-out="docs.partner_id.vat"></BanNumDocRecExt>
+                <BanNomRec t-out="docs.partner_id.name"></BanNomRec>
+                <BanDirRec t-if="docs.partner_id.street" t-out="docs.partner_id.street"></BanDirRec>
+                <BanCiuRec t-if="docs.partner_id.city_id.name" t-out="docs.partner_id.city_id.name"></BanCiuRec>
+                <BanDepRec t-if="docs.partner_id.state_id" t-out="docs.partner_id.state_id.name"></BanDepRec>
+            </t>
+            <EmpCod t-out="company.company_code"></EmpCod>
+            <BanDocCodERP t-out="docs.id"></BanDocCodERP>
+            <BanTpoCFE t-out="cfe_type"></BanTpoCFE>
+            <BanNroInt t-out="docs.id"></BanNroInt>
+            <BanNroIdeCom t-if="docs.nro_compra" t-out="docs.nro_compra"></BanNroIdeCom>
+            <BanFchCFE t-out="docs.invoice_date.strftime('%Y-%m-%d')"></BanFchCFE>
+            <BanIndMonBru>0</BanIndMonBru>
+            <t t-if="cfe_type not in [182]">
+                <BanForPag t-out="docs.get_payment_term()"></BanForPag>
+                <BanFchVen t-if="docs.invoice_date_due" t-out="docs.invoice_date_due.strftime('%Y-%m-%d')"></BanFchVen>
+            </t>
+            <t t-else="">
+                <BanForPag>1</BanForPag>
+                <!--                <BanFchVen t-if="docs.invoice_date_due" t-out="docs.invoice_date_due.strftime('%Y-%m-%d')"></BanFchVen>-->
+            </t>
+            <BanCodPosRec t-if="docs.partner_id.zip" t-out="docs.partner_id.zip"></BanCodPosRec>
+            <BanTpoMonTra t-out="docs.currency_id.name"></BanTpoMonTra>
+            <BanTpoCam t-if="docs.currency_id != company.currency_id" t-out="docs.get_currency_rate()"></BanTpoCam>
+            <t t-if="cfe_type not in [182]">
+                <BanTasaIVAMin t-out="docs.tasa_minima()"></BanTasaIVAMin>
+                <BanTMonNetIBas t-if="docs.existe_monto_neto_a_tasa_basica()" t-out="docs.monto_neto_a_tasa_basica()"></BanTMonNetIBas>
+                <MntIVATasaBasica t-if="docs.existe_monto_neto_a_tasa_basica()" t-out="docs.monto_iva_a_tasa_basica()"></MntIVATasaBasica>
+                <!-- Total Monto - Exportación y Asimilados [Currency(15,2)] -->
+                <BanTMonExpAsi t-if="docs.monto_neto_a_asimilado()" t-out="docs.monto_neto_a_asimilado()"></BanTMonExpAsi>
+                <BanTMonNetIMin t-if="docs.existe_monto_neto_a_tasa_minima()" t-out="docs.monto_neto_a_tasa_minima()"></BanTMonNetIMin>
+                <BanTasaIVABas t-out="docs.tasa_basica()"></BanTasaIVABas>
+                <BanTotIVABas t-if="docs.existe_monto_neto_a_tasa_basica()" t-out="docs.monto_iva_a_tasa_basica()"></BanTotIVABas>
+                <BanTotMonTot t-out="round(docs.amount_total, docs.currency_id.decimal_places)"></BanTotMonTot>
+                <BanMonTotPag t-out="round(docs.amount_total, docs.currency_id.decimal_places)"></BanMonTotPag>
+                <BanCanLin t-out="len(docs.invoice_line_ids)"></BanCanLin>
+                <BanTMonNoGra t-if="docs.existe_monto_neto_sin_iva()" t-out="docs.monto_neto_sin_iva()"></BanTMonNoGra>
+                <BanTotIVAMin t-if="docs.existe_monto_neto_a_tasa_minima()" t-out="docs.monto_iva_a_tasa_minima()"></BanTotIVAMin>
+            </t>
+            <t t-if="cfe_type in [182]">
+                <BanCanLin>1</BanCanLin>
+                <BanTotMonRet t-out="docs.payment_id.amount * -1 if docs.payment_id.anulacion_resguardo else docs.payment_id.amount"></BanTotMonRet>
+            </t>
+            <BanTMonNetIOTas>0.00</BanTMonNetIOTas>
+            <BanTotIVAOTas>0.00</BanTotIVAOTas>
+            <BanMonNoFac>0.00</BanMonNoFac>
+            <BanXMLCFE></BanXMLCFE>
+            <BanGenRepImp></BanGenRepImp>
+            <BanSucCodErp t-out="docs.dgi_sucursal_id.sucursal_code"></BanSucCodErp>
+            <BanPeCodErp></BanPeCodErp>
+            <BanAdenda t-if="docs.narration" t-out="docs.strip_html(docs.narration)"></BanAdenda>
+            <BanTpoDocERP></BanTpoDocERP>
+            <BanNumDocERP></BanNumDocERP>
+            <BanSerDocERP></BanSerDocERP>
+            <BanRutaPDF></BanRutaPDF>
+            <BanEsEmisor></BanEsEmisor>
+            <BanLin>
+                <t t-if="cfe_type not in [182]">
+                    <BanLinItem t-foreach="docs.invoice_line_ids" t-as="line">
+                        <t t-set="line_type" t-value="docs.get_line_type(line)"/>
+                        <t t-if="line_type == 'line_product'">
+                            <NumLin t-out="int(line_index + 1)"></NumLin>
+                            <IndFac t-out="line.indice_facturacion()"></IndFac>
+                            <ItemNom t-out="docs.strip_html(line.truncate_string(line.product_id.display_name, 80))"></ItemNom>
+                            <ItemDes t-out="docs.strip_html(line.truncate_string(line.name, 1000))"></ItemDes>
+                            <ItemCan t-out="float_round(value=line.quantity, precision_rounding=line.product_uom_id.rounding, rounding_method='UP')"></ItemCan>
+                            <ItemUniMed t-out="line.product_uom_id.name[:4]"></ItemUniMed>
+                            <ItemPreUni t-out="line.precio_unitario()"></ItemPreUni>
+                            <ItemDesPor t-out="line.discount"></ItemDesPor>
+                            <ItemMonDes t-out="line.monto_descuento()"></ItemMonDes>
+                            <ItemRecPor></ItemRecPor>
+                            <ItemRecMon></ItemRecMon>
+                            <ItemMon t-out="line.price_subtotal"></ItemMon>
+                            <BanLinCod>
+                                <t t-if="line.product_id.barcode">
+                                    <BanLinCodItem>
+                                        <TpoCodItem>EAN</TpoCodItem>
+                                        <CodItem t-out="line.product_id.barocde"></CodItem>
+                                    </BanLinCodItem>
+                                </t>
+                                <t t-elif="line.product_id.default_code">
+                                    <BanLinCodItem>
+                                        <TpoCodItem>INT1</TpoCodItem>
+                                        <CodItem t-out="line.product_id.default_code"></CodItem>
+                                    </BanLinCodItem>
+                                </t>
+                                <t t-else="">
+                                    <BanLinCodItem>
+                                        <TpoCodItem>INT1</TpoCodItem>
+                                        <CodItem>NA</CodItem>
+                                    </BanLinCodItem>
+                                </t>
+                            </BanLinCod>
+                        </t>
+
+                        <t t-elif="line_type == 'line_section'">
+                            <NumLin t-out="int(line_index + 1)"></NumLin>
+                            <IndFac t-out="line.indice_facturacion_gratuito()"></IndFac>
+                            <ItemNom>Sección</ItemNom>
+                            <ItemDes t-out="line.truncate_string(line.name, 1000)"></ItemDes>
+                            <ItemAtrPart t-out="line.name"></ItemAtrPart>
+                        </t>
+                        <t t-elif="line_type == 'line_note'">
+                            <NumLin t-out="int(line_index + 1)"></NumLin>
+                            <IndFac t-out="line.indice_facturacion_gratuito()"></IndFac>
+                            <ItemNom>Nota</ItemNom>
+                            <ItemDes t-out="docs.strip_html(line.truncate_string(line.name, 1000))"></ItemDes>
+                            <ItemAtrPart t-out="docs.strip_html(line.truncate_string(line.name, 1000))"></ItemAtrPart>
+                        </t>
+
+                        <t t-elif="line_type == 'line_other'">
+                            <NumLin t-out="int(line_index + 1)"></NumLin>
+                            <IndFac t-out="line.indice_facturacion_gratuito()"></IndFac>
+                            <ItemNom>Texto extra</ItemNom>
+                            <ItemDes t-out="docs.strip_html(line.truncate_string(line.name, 1000))"></ItemDes>
+                            <ItemAtrPart t-out="docs.strip_html(line.truncate_string(line.name, 1000))"></ItemAtrPart>
+                        </t>
+                    </BanLinItem>
+
+                </t>
+
+                <t t-if="cfe_type in [182]">
+                    <BanAdenda t-if="docs.ref" t-out="docs.strip_html(docs.ref)"></BanAdenda>
+                    <BanLinItem t-foreach="docs.payment_id" t-as="li">
+                        <NumLin>1</NumLin>
+                        <IndFac t-if="docs.payment_id.anulacion_resguardo">9</IndFac>
+                        <BanLinPer>
+                            <BanLinPerItem>
+                                <!-- Código Retención/Percepción de acuerdo a la codificación DGI: [String(8)] -->
+                                <ItemCodRet t-out="docs.payment_id.dgi_retention_code_id.code+docs.payment_id.dgi_retention_code_id.line"></ItemCodRet>
+                                <!-- Tasa vigente a la fecha del comprobante en % [Currency(3,3)] -->
+                                <ItemTasaPor t-out="docs.payment_id.dgi_retention_rate"></ItemTasaPor>
+                                <!-- Monto informado asociado al código y tasa indicados anteriormente [Currency(15,2)] -->
+                                <ItemMonRetPer t-out="round(docs.payment_id.amount / (docs.payment_id.dgi_retention_rate/100),2)"></ItemMonRetPer>
+                                <!-- Valor de la Retención/Percepción asociada al código y tasa indicados anteriormente [Currency(15,2)] -->
+                                <ItemValRetPer t-out="round((docs.payment_id.dgi_retention_rate * docs.payment_id.amount / (docs.payment_id.dgi_retention_rate/100)/100),2)"></ItemValRetPer>
+                                <!-- Otra información relativa a la retención/ percepción/ crédito [String(150)] -->
+                                <ItemRetPerInfAdi t-if="docs.payment_id.ref" t-out="docs.payment_id.ref"></ItemRetPerInfAdi>
+                            </BanLinPerItem>
+                        </BanLinPer>
+                    </BanLinItem>
+                </t>
+            </BanLin>
+            <!-- Percepciones y Retenciones Max 20 repeticiones-->
+            <BanPerRet t-if="cfe_type in [182]">
+                <BanPerRetItem>
+                    <!-- Código Retención/Percepción de acuerdo a codificación DGI: Nº de Formulario más Nº de línea [String(8)] -->
+                    <PerRetNum t-out="docs.payment_id.dgi_retention_code_id.code+docs.payment_id.dgi_retention_code_id.line"></PerRetNum>
+                    <!-- Valor de la Retención/Percepción [Currency(15,2)]-->
+                    <PerRetVal t-out="round(docs.payment_id.amount,2)"></PerRetVal>
+                    <PerRetVal t-out="docs.payment_id.amount * -1 if docs.payment_id.anulacion_resguardo else docs.payment_id.amount"></PerRetVal>
+                    <!--
+                    <Tasa t-out="docs.payment_id.dgi_retention_rate"></Tasa>
+                    <InfoAdicionalRet t-out="docs.payment_id.ref"></InfoAdicionalRet>
+                    <ValRetPerc t-out="docs.payment_id.amount"></ValRetPerc>
+                    -->
+                </BanPerRetItem>
+            </BanPerRet>
+            <BanInfRef t-if="cfe_type in [102, 112, 122, 132, 142, 152]">
+                <t t-set="origin_move" t-value="docs.obtener_factura_original()"/>
+                <t t-if="origin_move">
+                    <BanInfRefItem t-foreach="origin_move" t-as="origen">
+                        <InfRefNum t-out="int(origen_index + 1)"></InfRefNum>
+                        <t t-if="len(origen) > 40">
+                            <InfRefInd></InfRefInd>
+                        </t>
+                        <t t-else="">
+                            <InfRefInd>1</InfRefInd>
+                        </t>
+                        <!-- Tipo CFE de referencia [String(20)] -->
+                        <InfRefCFERef t-out="origen.cfe_type"></InfRefCFERef>
+                        <!-- Serie del CFE de referencia [String(2)] -->
+                        <InfRefCFESerRef t-out="origen.serie()"></InfRefCFESerRef>
+                        <!-- Número del CFE dereferencia [Integer] -->
+                        <InfRefCFENumRef t-out="origen.numero_cfe()"></InfRefCFENumRef>
+                        <!-- Razón referencia [String(90)] -->
+                        <InfRefRazRef t-out="docs.truncate_string(docs.ref,90)"></InfRefRazRef>
+                        <!-- Fecha CFE de referencia [Date] -->
+                        <InfRefFchRef t-out="origen.invoice_date.strftime('%Y-%m-%d')"></InfRefFchRef>
+                    </BanInfRefItem>
+                </t>
+                <t t-else="">
+                    <BanInfRefItem>
+                        <InfRefNum>1</InfRefNum>
+                        <InfRefInd>1</InfRefInd>
+                        <InfRefRazRef t-out="docs.truncate_string(docs.payment_reference,90)"/>
+                    </BanInfRefItem>
+
+                </t>
+            </BanInfRef>
+
+            <t t-set="rounding_values" t-value="docs.get_rounding_values()"/>
+            <t t-if="rounding_values">
+                <BanDesRec>
+                    <BanDesRecItem>
+                        <!-- N° de línea o N° Secuencial [Integer] -->
+                        <DesRecNum t-out="rounding_values['DesRecNum']"></DesRecNum>
+                        <!-- Tipo de movimiento D(descuento) o R(recargo) [String(1)] -->
+                        <DesRecTpoMov t-out="rounding_values['DesRecTpoMov']"></DesRecTpoMov>
+                        <!-- Tipo Descuento o Recargo. Indica si el descuento o recargo en $ (1) o % (2) [Integer] -->
+                        <DesRecTpo t-out="rounding_values['DesRecTpo']"></DesRecTpo>
+                        <!-- Código del Descuento/Recargo [Integer] -->
+                        <DesRecCod t-out="rounding_values['DesRecCod']"></DesRecCod>
+                        <!-- Especificación de descuento o recargo [String(50)] -->
+                        <DesRecGlo t-out="rounding_values['DesRecCod']"></DesRecGlo>
+                        <!-- Valor del descuento o recargo [Currency(15,2)] -->
+                        <DesRecVal t-out="rounding_values['DesRecVal']"></DesRecVal>
+                        <!-- Indicador de facturación. Valores:
+                        6: Producto o servicio no facturable
+                        7: Producto o servicio no facturable negativo
+                         -->
+                        <DesRecInFac t-out="rounding_values['DesRecInFac']"></DesRecInFac>
+                    </BanDesRecItem>
+                </BanDesRec>
+            </t>
+
+
+
+        </bandeja>
+    </template>
+
+    <template id="cfe_xml_entrada">
+        <XMLEntrada>
+            <Datos>
+                <Dato>
+                    <Valor>
+                        <startcdata/>
+                        <t t-call="l10n_uy_einvoice_datalogic.cfe_xml_bandeja"/>
+                        <endcdata/>
+                    </Valor>
+                </Dato>
+            </Datos>
+        </XMLEntrada>
+    </template>
+
+    <template id="cfe_xml_datos_partner">
+        <XMLEntrada>
+            <Datos>
+                <Dato>
+                    <Valor>
+                        <startcdata/>
+                        <XMLParametros>
+                            <Empresa t-out="company.company_code"></Empresa>
+                            <TamanioPagina></TamanioPagina>
+                            <NumeroPagina></NumeroPagina>
+                            <RUT t-out="docs.vat"></RUT>
+                        </XMLParametros>
+                        <endcdata/>
+                    </Valor>
+                </Dato>
+            </Datos>
+        </XMLEntrada>
+
+    </template>
+
+
+    <!--    <template id="cfe_recibidos">-->
+    <!--        <XMLEntrada>-->
+    <!--            <Datos>-->
+    <!--                <Dato>-->
+    <!--                    <Valor>-->
+    <!--                        <startcdata/>-->
+    <!--                        <XMLParametros xmlns="GFE_Client">-->
+    <!--                            <Empresa t-out="company.company_code"/>-->
+    <!--                            <RangoRecibidos>-->
+    <!--                                <TipoDocumentoCFEInicial>0</TipoDocumentoCFEInicial>-->
+    <!--                                <TipoDocumentoCFEFinal>999</TipoDocumentoCFEFinal>-->
+    <!--                                <SerieDocumentoCFEInicial t-out="last_serie_cfe"/>-->
+    <!--                                <SerieDocumentoCFEFinal>ZZ</SerieDocumentoCFEFinal>-->
+    <!--                                <ComprobanteCFEInicial t-out="last_numero_cfe"/>-->
+    <!--                                <ComprobanteCFEFinal>999999999</ComprobanteCFEFinal>-->
+    <!--                                <FechaCFEInicial>2024-01-01</FechaCFEInicial>-->
+    <!--                                <FechaCFEFinal>2054-12-31</FechaCFEFinal>-->
+    <!--                                <CantidadMaximaRec>100</CantidadMaximaRec>-->
+    <!--                                <ObtenerAdenda>True</ObtenerAdenda>-->
+    <!--                            </RangoRecibidos>-->
+    <!--                        </XMLParametros>-->
+    <!--                        <endcdata/>-->
+    <!--                    </Valor>-->
+    <!--                </Dato>-->
+    <!--            </Datos>-->
+    <!--        </XMLEntrada>-->
+    <!--    </template>-->
+
+    <template id="cfe_recibidos">
+        <XMLEntrada>
+            <Datos>
+                <Dato>
+                    <Valor>
+                        <startcdata/>
+                        <XMLParametros xmlns="GFE_Client">
+                            <Empresa t-out="company.company_code"/>
+                            <RangoRecibidos>
+                                <SerieDocumentoCFEInicial t-out="last_serie_cfe"/>
+                                <ComprobanteCFEInicial t-out="last_numero_cfe"/>
+                                <CantidadMaximaRec>1000000</CantidadMaximaRec>
+                                <ObtenerAdenda>True</ObtenerAdenda>
+                                <EstadosProcesadosERP>
+                                    <!--
+                                    Procesado (1)
+                                    No Procesado (2)
+                                    Procesado Con Errores (3)
+                                    Procesado Sin Modelo (4)
+                                    -->
+                                    <Estado>2</Estado>
+                                    <Estado>3</Estado>
+                                    <Estado>4</Estado>
+                                </EstadosProcesadosERP>
+                            </RangoRecibidos>
+                        </XMLParametros>
+                        <endcdata/>
+                    </Valor>
+                </Dato>
+            </Datos>
+        </XMLEntrada>
+    </template>
+
+    <template id="cfe_recibidos_by_list">
+        <XMLEntrada>
+            <Datos>
+                <Dato>
+                    <Valor>
+                        <startcdata/>
+                        <XMLParametros xmlns="GFE_Client">
+                            <Empresa t-out="company.company_code"/>
+                            <RangoRecibidos>
+                                <SerieDocumentoCFEInicial t-out="serie"/>
+                                <SerieDocumentoCFEFinal t-out="serie"/>
+                                <ComprobanteCFEInicial t-out="numero"/>
+                                <ComprobanteCFEFinal t-out="numero"/>
+                                <CantidadMaximaRec>1000000</CantidadMaximaRec>
+                                <ObtenerAdenda>True</ObtenerAdenda>
+                                <EstadosProcesadosERP>
+                                    <Estado>2</Estado>
+                                </EstadosProcesadosERP>
+                            </RangoRecibidos>
+                        </XMLParametros>
+                        <endcdata/>
+                    </Valor>
+                </Dato>
+            </Datos>
+        </XMLEntrada>
+    </template>
+
+    <template id="cfe_recibido_marcar_procesado_x_erp">
+        <t t-set="dco2" t-value="docs.invoice_values_ids.mapped('invoice_id')[:2]"/>
+        <XMLEntrada>
+            <Datos>
+                <Dato>
+                    <Valor>
+                        <startcdata/>
+                        <XMLMarcarEstadoProcesadoXERP xmlns="GFE_Client">
+                            <Documentos t-foreach="dco2" t-as="documento">
+                                <Documento>
+                                    <Empresa t-out="company.company_code"/>
+                                    <TipoDocumentoCFE t-out="documento.cfe_type_received"/>
+                                    <SerieDocumentoCFE t-out="documento.serie_recibido(documento.cfe_type_received)"/>
+                                    <ComprobanteCFE t-out="documento.numero_cfe_recibido(documento.cfe_type_received)"/>
+                                    <EstadoActualHistorico>1</EstadoActualHistorico>
+                                    <EstadoReceptorHistorico>1</EstadoReceptorHistorico>
+                                </Documento>
+                            </Documentos>
+                        </XMLMarcarEstadoProcesadoXERP>
+                        <endcdata/>
+                    </Valor>
+                </Dato>
+            </Datos>
+        </XMLEntrada>
+
+    </template>
+
+    <template id="cfe_recibido_marcar_cfe">
+        <XMLEntrada>
+            <Datos>
+                <Dato>
+                    <Valor>
+                        <startcdata/>
+                        <XMLParametros xmlns="GFE_Client">
+                            <EmpCod t-out="company.company_code"/>
+                            <TipoDocumentoCFE t-out="documento.cfe_type_received"/>
+                            <SerieDocumentoCFE t-out="documento.serie_recibido(documento.cfe_type_received)"/>
+                            <ComprobanteCFE t-out="documento.numero_cfe_recibido(documento.cfe_type_received)"/>
+                            <RutEmisor t-out="documento.partner_id.vat"/>
+                            <EstadoASetear t-out="estado"/>
+                        </XMLParametros>
+                        <endcdata/>
+                    </Valor>
+                </Dato>
+            </Datos>
+        </XMLEntrada>
+
+    </template>
+
+    <template id="cfe_obtener_pdf">
+        <XMLEntrada>
+            <Datos>
+                <Dato>
+                    <Valor>
+                        <startcdata/>
+                        <XMLDocumento xmlns="GFE_Client">
+                            <EmpCod t-out="company.company_code"></EmpCod>
+                            <CfeTpo t-out="cfe_type"></CfeTpo>
+                            <CfeSer t-out="docs.serie()"></CfeSer>
+                            <CfeNum t-out="docs.numero_cfe()"></CfeNum>
+                            <CfeImpTot t-out="amount_total"></CfeImpTot>
+                            <CfeHash t-out="docs.cfe_hash[:6]"></CfeHash>
+                            <CfeOrigenRutina>5</CfeOrigenRutina>
+                        </XMLDocumento>
+                        <endcdata/>
+                    </Valor>
+                </Dato>
+            </Datos>
+        </XMLEntrada>
+    </template>
+
+    <template id="cfe_obtener_pdf_recibido">
+        <XMLEntrada>
+            <Datos>
+                <Dato>
+                    <Valor>
+                        <startcdata/>
+                        <XMLParametros>
+                            <EmpCod t-out="company.company_code"></EmpCod>
+                            <Rut t-out="docs.partner_id.vat"></Rut>
+                            <CfeTpo t-out="cfe_type"></CfeTpo>
+                            <CfeSer t-out="docs.serie_recibido(cfe_type)"></CfeSer>
+                            <CfeNum t-out="docs.numero_cfe_recibido(cfe_type)"></CfeNum>
+                        </XMLParametros>
+                        <endcdata/>
+                    </Valor>
+                </Dato>
+            </Datos>
+        </XMLEntrada>
+    </template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</odoo>

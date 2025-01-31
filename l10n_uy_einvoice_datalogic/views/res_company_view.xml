@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+
+        <record id="l10n_uy_company_datalogic_form_view" model="ir.ui.view">
+            <field name="name">res.company.form.inherit</field>
+            <field name="model">res.company</field>
+            <field name="priority" eval="500"/>
+            <field name="inherit_id" ref="l10n_uy_einvoice_base.add_nro_on_res_company"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='cfe_provider']" position="after">
+                    <span>Defina su código de la compañía </span>
+                    <field name="company_code" style="width: 30%" placeholder="código de la compañía "/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

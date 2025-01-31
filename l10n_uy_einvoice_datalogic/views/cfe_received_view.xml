@@ -1,0 +1,48 @@
+<odoo>
+    <data>
+
+        <record id="view_cfe_received_form_datalogic_ext" model="ir.ui.view">
+            <field name="name">cfe.received.form</field>
+            <field name="model">cfe.received</field>
+            <field name="inherit_id" ref="l10n_uy_einvoice_base.view_cfe_received_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="action_create_invoices"
+                            type="object"
+                            string="Crear Comprobantes"
+                            attrs="{'invisible': [('state', 'in', ['draft'])]}"
+                            class="oe_highlight"
+                            context="{'lines_state': 'draft'}"
+                    />
+                    <button name="action_create_invoices"
+                            type="object"
+                            string="Reintentar Crear Comprobantes"
+                            attrs="{'invisible': [('state', 'in', ['draft'])]}"
+                            class="oe_highlight"
+                            context="{'lines_state': 'fail'}"
+                    />
+                    <button name="marcar_cfe_procesado"
+                            type="object"
+                            string="Marcar Comprobante"
+                            attrs="{'invisible': [('state', 'in', ['draft'])]}"
+                            class="oe_highlight"
+                    />
+                </xpath>
+                <field name="consume_type" position="after">
+                    <field name="last_numero_cfe" invisible="1"/>
+                    <field name="last_serie_cfe" invisible="1"/>
+                    <field name="max_records"/>
+                </field>
+                <xpath expr="//h2[@name='explanaition']" position="inside">
+                    <field name="explanation_text"/>
+                </xpath>
+                <xpath expr="//field[@name='invoice_values_ids']/tree/field[@name='message']" position="after">
+                 <field name="procesado_message"/>
+                </xpath>
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,40 @@
+<odoo>
+    <data>
+        <record id="res_company_invoice_configuration" model="ir.ui.view">
+            <field name="name">res.company.form.inherit</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Configuración Impresión de Factura" name="invoice_configuration">
+                        <div class="row mt16 o_settings_container" name="configuracion_invoice">
+                            <h2>Configuraciones</h2>
+                            <div class="o_setting_box">
+                                <strong>Imagen de fondo</strong><br/>
+                                <field name="layout_background_image" widget="image" options="{'accepted_file_extensions': 'image/*', 'size': [250, 250]}">Archivo</field>
+                            </div>
+                            <div class="o_setting_box">
+                                 <strong>Color del background</strong><br/>
+                                <field name="background_color" widget="color" />
+                            </div>
+
+                            <div class="o_setting_box">
+                                 <strong>Mostrar razón social y dirección</strong><br/>
+                                <field name="invoice_address"/>
+                            </div>
+                            <div class="o_setting_box">
+                                 <strong>Imprimir etiquetas</strong><br/>
+                                <field name="product_tag"/>
+                            </div>
+                            <div class="o_setting_box">
+                                 <strong>Traducir al idioma del Cliente</strong><br/>
+                                <field name="translations"/>
+                            </div>
+                        </div>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+    </data>
+</odoo>

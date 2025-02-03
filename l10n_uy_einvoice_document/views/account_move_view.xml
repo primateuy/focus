@@ -1,0 +1,16 @@
+<odoo>
+    <record id="view_move_form_inherit_print_invoice" model="ir.ui.view">
+        <field name="name">account.move.form.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button name="action_print_invoice"
+                        string="Imprimir Factura"
+                        type="object"
+                        class="btn-primary"
+                        icon="fa-print"/>
+            </header>
+        </field>
+    </record>
+</odoo>

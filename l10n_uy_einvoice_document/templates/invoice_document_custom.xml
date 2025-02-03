@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_custom_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="doc">
+                                            <div class="header">
+                        </div>
+                    <div class="page" t-attf-style="  background-image: url({{ 'data:image/png;base64,%s' % doc.company_id.layout_background_image.decode('utf-8') if doc.company_id.layout_background_image else './l10n_uy_einvoice_document/static/description/background.png'}});">
+                        <!-- HEADER -->
+
+                        <div>
+                            <div>
+                                <t t-if="doc.company_id.invoice_address">
+                                    <tr>
+                                        <td>
+                                            <t t-set="company_img" t-value="doc.company_id"/>
+                                            <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" style="width:400px; height: 200px;" />
+                                            <br/>
+                                            <strong>
+                                                <t t-esc="doc.company_id.name"/>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                    <!--INFORMACIÓN SOBRE LA COMPAÑIA-->
+                                    <tr>
+                                        <td>
+                                            <strong>
+                                                <t t-esc="doc.company_id.social_reason or ''"/>
+                                            </strong>
+                                            <t t-esc="doc.company_id.city or ''"/>
+                                            <br/>
+                                            <t t-esc="doc.company_id.street or ''"/>
+                                            <br/>
+                                            <t t-esc="doc.company_id.state_id.name or ''"/>
+                                            <br/>
+                                            <t t-esc="doc.company_id.zip or ''"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                                <t t-else="">
+                                    <tr>
+                                        <td>
+                                            <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" style="width: 150px; height: 150px;" />
+                                        </td>
+                                    </tr>
+                                </t>
+                            </div>
+                            <!--TABLAS CABEZAL DERECHO-->
+                            <div style="flex: 1; text-align: right;position:absolute;top:0;right:0;margin:0px 5px 0px 0px;width:55%;" name="cabezal_derecho">
+                                <table style="width:100%;margin-bottom:10px;text-align: center;border-collapse:separate;" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td t-attf-style="font-size:22px; color:white; padding: 10px 20px 10px 20px;vertical-align:middle; background-color: {{doc.company_id.background_color or '#e93340'}};border-radius: 7px;">
+                                            <t t-esc="'RUT EMISOR/ISSUER TAX ID: ' + doc.company_id.vat"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:22px;padding: 20px 0px;vertical-align:middle;">
+                                            <t t-esc="'INVOICE: ' + dict(doc.fields_get(allfields=['cfe_type'])['cfe_type']['selection'])[doc.cfe_type]"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table style="width:100%;margin-bottom:10px;text-align: center;border-collapse:separate;" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td t-attf-style="font-size:12px;padding: 5px 10px 5px 10px;color: white;vertical-align:middle; background-color: {{doc.company_id.background_color or '#e93340'}};border-top-left-radius: 7px;border-bottom-left-radius: 7px;">SERIE/SERIAL</td>
+                                        <td t-attf-style="font-size:12px;padding: 5px 10px 5px 10px;color: white;vertical-align:middle; background-color: {{doc.company_id.background_color or '#e93340'}};">NÚMERO/NUMBER</td>
+                                        <td t-attf-style="font-size:12px;padding: 5px 10px 5px 10px;color: white;vertical-align:middle; background-color: {{doc.company_id.background_color or '#e93340'}};">PAGO/PAYMENT</td>
+                                        <td t-attf-style="font-size:12px;padding: 5px 10px 5px 10px;color: white;vertical-align:middle; background-color: {{doc.company_id.background_color or '#e93340'}};border-top-right-radius: 7px;border-bottom-right-radius: 7px;">MONEDA/CURRENCY</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:15px;padding: 5px 10px 5px 10px;vertical-align:middle;">
+                                            <t t-esc="doc.cfe_serie_num.split('-')[1]"/>
+                                        </td>
+                                        <td style="font-size:15px;padding: 5px 10px 5px 10px;vertical-align:middle;">
+                                            <t t-esc="doc.cfe_serie_num.split('-')[2]"/>
+                                        </td>
+                                        <td style="font-size:15px;padding: 5px 10px 5px 10px;vertical-align:middle;">
+                                            <t t-esc="doc.invoice_payment_term_id.name"/>
+                                        </td>
+                                        <td style="font-size:15px;padding: 5px 10px 5px 10px;vertical-align:middle;">
+                                            <t t-esc="doc.currency_id.name"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table style="width:100%;margin-bottom:10px;text-align: center;border-collapse:separate;" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td t-attf-style="font-size:22px; color:white; padding: 10px 20px 10px 20px;vertical-align:middle; background-color: {{doc.company_id.background_color or '#e93340'}};border-radius: 7px;">RECEPTOR/RECEIVER</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <br/>
+                                            <t t-attf-style="mt-3" t-esc="doc.partner_id.social_reason or ''"/>
+                                            <br/>
+                                            <br/>
+                                            <t t-attf-style="mt-3" t-esc="doc.partner_id.street or '' + doc.partner_id.street2 or ''"/>
+                                            <t t-esc="doc.partner_id.state_id.name or ''"/>
+                                            <br/>
+                                            <br/>
+                                            <t t-esc=" ', '"/>
+                                            <t t-esc="doc.partner_id.country_id.name"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- BODY -->
+                        <div class="body-content">
+                            <!--HEADING DE FECHAS-->
+                             <table style="border-collapse:separate; margin-top:15px;" border="0" cellspacing="0" cellpadding="0">
+                                    <tr t-afft-style="border:none;">
+                                        <td t-attf-style="vertical-align: bottom; padding:  5px 5px 1px 5px;  width: 10%; background-color: {{doc.company_id.background_color or '#e93340'}}; color: white; border: none !important; border-top-left-radius:7px; font-size:10px;">FECHA</td>
+                                        <td t-attf-style="vertical-align: middel; padding:  5px 5px 1px 5px;  width: 15%; background-color: {{doc.company_id.background_color or '#e93340'}}; color: white; border: none !important; font-size:22px;" rowspan="2">
+                                            <t t-esc="doc.invoice_date"/>
+                                        </td>
+                                        <td t-attf-style="vertical-align: bottom; padding:  5px 5px 1px 5px;  width: 10%; background-color: {{doc.company_id.background_color or '#e93340'}}; color: white; border: none !important; font-size:10px;">VENCIMIENTO</td>
+                                        <td t-attf-style="vertical-align: middel; padding:  5px 5px 1px 5px;  width: 15%; background-color: {{doc.company_id.background_color or '#e93340'}}; color: white; border: none !important; font-size:22px; " rowspan="2">
+                                            <t t-esc="doc.invoice_date_due"/>
+                                        </td>
+                                        <td t-attf-style="vertical-align: bottom; padding:  5px 5px 1px 5px;  width: 10%; background-color: {{doc.company_id.background_color or '#e93340'}}; color: white; border: none !important; font-size:10px;">COTIZACIÓN</td>
+                                        <td t-attf-style="vertical-align: middel; padding:  5px 5px 1px 5px;  width: 15%; background-color: {{doc.company_id.background_color or '#e93340'}}; color: white; border: none !important; font-size:22px; " rowspan="2">
+                                            <t t-esc="doc.currency_rate"/>
+                                        </td>
+                                        <td t-attf-style="vertical-align: bottom; padding:  5px 5px 1px 5px;  width: 15%; background-color: {{doc.company_id.background_color or '#e93340'}}; color: white; border: none !important; font-size:10px;">ID COMPRA</td>
+                                        <td t-attf-style="vertical-align: middel; padding:  5px 5px 1px 5px;  width: 15%; background-color: {{doc.company_id.background_color or '#e93340'}}; color: white; border: none !important; border-top-right-radius: 10px; border-bottom-right-radius: 7px; font-size:22px;" rowspan="2">
+                                            <t t-esc="doc.nro_compra or ''"/>
+                                        </td>
+                                    </tr>
+                                    <tr t-afft-style="border:none;">
+                                        <td t-attf-style="vertical-align:top; padding: 1px 5px 5px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color: white; border: none !important; border-bottom-left-radius: 10px; font-size:10px;">FECHA</td>
+                                        <td t-attf-style="vertical-align:top; padding: 1px 5px 5px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color: white; border: none !important; font-size:10px;">PAYMENT DUE</td>
+                                        <td t-attf-style="vertical-align:top; padding: 1px 5px 5px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color: white; border: none !important; font-size:10px;">EXCHANGE RATE</td>
+                                        <td t-attf-style="vertical-align:top; padding: 1px 5px 5px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color: white; border: none !important; font-size:10px;">PURCHASE NUM</td>
+                                    </tr>
+                                </table> 
+
+
+
+
+                            <!-- TABLA DE PRODUCTOS -->
+                            <table style="border-collapse:separate; margin-top:10px;" border="0" cellspacing="0" cellpadding="0">
+                                <thead>
+                                    <tr style=" font-size: 10px; border-bottom:none; ">
+                                        <td t-attf-style="width: 10%; padding: 5px 5px 1px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none; border-top-left-radius:7px;">CODIGO</td>
+                                        <td t-attf-style="width: 10%; padding: 5px 5px 1px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none;">DESCRIPCIÓN</td>
+                                        <td t-attf-style="width: 10%; padding: 5px 5px 1px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none;">UNIDAD</td>
+                                        <td t-attf-style="width: 10%; padding: 5px 5px 1px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none;">CANTIDAD</td>
+                                        <td t-attf-style="width: 10%; padding: 5px 5px 1px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none;">PRECIO</td>
+                                        <td t-attf-style="width: 10%; padding: 5px 5px 1px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none;">DESCUENTO</td>
+                                        <td t-attf-style="width: 10%; padding: 5px 5px 1px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none; border-top-right-radius: 7px;">MONTO</td>
+                                    </tr>
+                                    <tr t-attf-style=" border-top:none; padding-bottom: 10px; font-size: 10px;">
+                                        <td t-attf-style="padding: 1px 5px 5px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none; border-bottom-left-radius: 7px;">CODE</td>
+                                        <td t-attf-style="padding: 1px 5px 5px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none;">DESCRIPTION</td>
+                                        <td t-attf-style="padding: 1px 5px 5px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none;">UNIT</td>
+                                        <td t-attf-style="padding: 1px 5px 5px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none;">QUNATITY</td>
+                                        <td t-attf-style="padding: 1px 5px 5px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none;">PRICE</td>
+                                        <td t-attf-style="padding: 1px 5px 5px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none;">DISCOUNT</td>
+                                        <td t-attf-style="padding: 1px 5px 5px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none; border-bottom-right-radius: 7px;">AMOUNT</td>
+                                    </tr>
+                                </thead>
+                                <tbody style="border:none;" class="invoice_tbody">
+                                    <tr t-foreach="doc.invoice_line_ids" t-as="l">
+                                        <td style="padding-left:5px; " class="text-left">
+                                            <span t-field="l.product_id.id"/>
+                                        </td>
+                                        <td style="padding-left:5px; " class="text-left">
+                                            <span t-field="l.name"/>
+                                        </td>
+                                        <td style="padding-left:5px; " class="text-left">
+                                            <span t-field="l.product_uom_id"/>
+                                        </td>
+                                        <td style="padding-left:5px; " class="text-left">
+                                            <span t-field="l.quantity"/>
+                                        </td>
+                                        <td style="padding-left:5px; " class="text-left">
+                                            <span t-field="l.price_unit"/>
+                                        </td>
+                                        <td style="padding-left:5px; " class="text-left">
+                                            <span t-field="l.discount"/>
+                                        </td>
+                                        <td style="padding-left:5px; " class="text-left">
+                                            <span t-field="l.price_subtotal"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div style="padding-top: 20px;">
+                            <div>
+                                <div>
+                                    <!-- QR + INFO DGI-->
+                                    <div style=" display: -webkit-box; -webkit-box-pack: justify;">
+                                        <div style=" display: -webkit-box;">
+                                            <div>
+                                                <t t-set="qr_code" t-value="'https://www.efactura.dgi.gub.uy/consultaQR/cfe?'"/>
+                                                <!-- RUT -->
+                                                <t t-set="qr_code" t-value="qr_code + (doc.partner_id.vat or '') + ','"/>
+                                                <!-- Serie -->
+                                                <t t-set="formatted_value" t-value="','.join(doc.cfe_serie_num.split('-'))"/>
+                                                <t t-set="qr_code" t-value="qr_code + formatted_value + ','"/>
+                                                <!-- Total -->
+                                                <t t-set="qr_code" t-value="qr_code + str(doc.amount_residual or '') +  '0,' "/>
+                                                <!-- Fecha -->
+                                                <t t-set="qr_code" t-value="qr_code + doc.cfe_cae_auth_date.split('-')[2] + '/' +  doc.cfe_cae_auth_date.split('-')[1] + '/' +  doc.cfe_cae_auth_date.split('-')[0] + ','"/>
+                                                <!-- Tipo de comprobante -->
+                                                <t t-set="qr_code" t-value="qr_code + (doc.cfe_hash or '') + '%3D' "/>
+                                                <img t-att-src="'/report/barcode/QR/' + qr_code" style="width:165px; height:165px;" alt="QR Code"/>
+                                            </div>
+                                            <!-- INFO DGI -->
+                                            <div style="font-size: 12px; margin-left: 10px;">
+                                                <div t-attf-style=" display: -webkit-box; -webkit-box-pack: justify;">
+                                                    <div>
+                                                        <span>Código de Seguridad/Security Code:</span>
+                                                        <br/>
+                                                    </div>
+
+                                                    <div t-attf-style=" display: -webkit-box; -webkit-box-pack: justify;">
+                                                        <t t-esc="doc.cfe_hash[:6]"/>
+                                                    </div>
+                                                </div>
+                                                <span>I.V.A. al día / V.A.T. up to date</span>
+                                                <t t-esc="expression"/>
+
+
+                                                <div t-attf-style=" display: -webkit-box; -webkit-box-pack: justify;">
+                                                    <div>
+
+                                                        <span>C.A.E. Nº</span>
+                                                        <br/>
+                                                        <span>Serie/Serial</span>
+                                                        <br/>
+                                                        <span>Rango/Range</span>
+                                                        <br/>
+                                                        <span>Fecha emisor / Date issuer</span>
+                                                        <br/>
+                                                        <span>Verifiación/Verification</span>
+                                                        <br/>
+                                                        <span>http://www.dgi.gub.uy</span>
+                                                    </div>
+                                                    <div>
+                                                        <span>132465798</span>
+                                                        <br/>
+                                                        <span>
+                                                            <t t-esc="doc.cfe_serie_num.split('-')[2]"/>
+                                                        </span>
+                                                        <br/>
+                                                        <span><t t-esc="doc.cfe_cae_from"/>
+                                                         <t t-esc="' - '"/>
+                                                        <t t-esc="doc.cfe_cae_to"/>
+                                                        </span>
+                                                        <br/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- TOTALES -->
+                                        <div style="width:50%" name="totales">
+
+                                            <div t-attf-style="padding:10px; margin-bottom: 10px; text-align:center; background-color: {{doc.company_id.background_color or '#e93340'}};  border-radius:8px;">
+                                                <span t-attf-style="color: white;  font-size: 15px;">TOTALES/TOTALS</span>
+                                            </div>
+
+                                            <div style="padding: 5px; display: -webkit-box; -webkit-box-pack: justify; font-size:12px">
+                                                <div>
+                                                    <span>No Gravado/Not Taxed</span>
+                                                    <br/>
+                                                    <span>IVA en Suspendo/Vat on Hold</span>
+                                                    <br/>
+                                                    <span>Neto IVA Tasa Mínimia/Net VAT Minimum Rate</span>
+                                                    <br/>
+                                                    <span>Neto IVA Tasa Básica/Net VAT Basic Rate</span>
+                                                    <br/>
+                                                    <span>IVA Tasa Mínimia/VAT Basic Rate</span>
+                                                    <br/>
+                                                    <span>IVA Tasa Básica/VAT Basic Rate</span>
+                                                    <br/>
+                                                    <span>Monto Total/Total Amount</span>
+                                                    <br/>
+                                                    <span>Redondeo-No Facturable/Rounding - Non Billable</span>
+                                                    <br/>
+                                                </div>
+                                                <div>
+                                                    <span> <t t-esc="doc.amount_untaxed"/></span>
+                                                    <br/>
+                                                    <span> </span>
+                                                    <br/>
+                                                    <span></span>
+                                                    <br/>
+                                                    <span></span>
+                                                    <br/>
+                                                    <span></span>
+                                                    <br/>
+                                                    <span></span>
+                                                    <br/>
+                                                    <span></span>
+                                                    <br/>
+                                                    <span></span>
+                                                    <br/>
+                                                    <span></span>
+                                                    <br/>
+                                                </div>
+                                            </div>
+
+
+                                            <span style="width: 60%">Total</span>
+                                            <span style="width: 30%">
+                                                <t t-esc="doc.currency_id.symbol"/>
+                                            </span>
+                                            <span style="width: 10%">
+                                                <t t-esc="doc.amount_total"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!-- ADENDA -->
+
+                                <div style="text-align: center;">
+                                    <table t-attf-style="border: 5px solid {{doc.company_id.background_color or '#e93340'}}; width:100%;border-collapse:separate; border-radius: 10px" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td t-attf-style="padding: 10px 0px; color: white; text-align: center;font-size:20px;vertical-align:middle; background-color: {{doc.company_id.background_color or '#e93340'}}; ">ADENDA/COMMENTS</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: center;">
+                                                <br/>
+                                                <br/>
+                                                <br/>
+                                                <br/>
+                                                <br/>
+                                                <span style="text-align: center;font-size:13px;">* 1. No gravado 2. Tasa mínima 3. Tasa básica 4. Otra tasa 5. Entrega gratuita 6. No facturable 10. Exportación y Asimiladas 11. Imp.percibido 12.IVA en suspenso</span>
+                                                <br/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FOOTER -->
+                        <div class="footer">
+                        </div>
+
+
+                </t>
+            </t>
+        </t>
+
+    </template>
+
+ <template id="external_layout_header" inherit_id="web.external_layout_standard">
+        <xpath expr="//div[1]" position="replace">
+
+            <div class="header o_company_#{company.id}_layout" t-attf-style="report_header_style">
+    </div>
+        </xpath>    
+    </template>
+    <report id="action_report_l10nuy_einvoice_custom" string="Delivery Receipt (Test POS)" model="account.move" report_type="qweb-pdf" name="l10n_uy_einvoice_document.report_custom_template" file="l10n_uy_einvoice_document.report_custom_template" />
+
+    <record id="action_report_l10nuy_einvoice_custom" model="ir.actions.report">
+        <field name="paperformat_id" ref="l10n_uy_einvoice_document.paperformat_l10nuy_custom"/>
+    </record>
+
+
+
+
+
+</odoo>

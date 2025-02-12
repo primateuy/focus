@@ -25,6 +25,7 @@ Long description of module's purpose
         # 'security/ir.model.access.csv',
         'data/report_paperformat_data.xml',
         'templates/invoice_document_custom.xml',
+        'templates/copy_web_core.xml',
         'views/res_company_view.xml',
         'views/account_move_view.xml',
     ],

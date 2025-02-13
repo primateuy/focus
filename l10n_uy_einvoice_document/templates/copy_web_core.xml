@@ -430,8 +430,6 @@
                                     <br/>
                                     <br/>
                                     <br/>
-                                    <br/>
-                                    <br/>
                                     <span style="text-align: center;font-size:14px;">* 1. Não tributado 2. Taxa mínima 3. Taxa básica 4. Outra taxa 5. Entrega gratuita 6. Não faturável 10. Exportação e Assimilado 11. Imposto cobrado 12. IVA suspenso</span>
                                     <br/>
                                 </td>
@@ -482,7 +480,7 @@
 
                             </div>
                             <div>
-                                <span></span>
+                                <span><t t-esc="doc.cfe_cae_auth"/></span>
                                 <br/>
                                 <span>
                                     <t t-esc="doc.cfe_serie_num.split('-')[2]"/>
@@ -862,8 +860,6 @@
                                 <td style="text-align: center;">
                                     <br/>
                                     <t t-esc="doc.narration or ''" />
-                                    <br/>
-                                    <br/>
                                     <br/>
                                     <br/>
                                     <br/>
@@ -1301,8 +1297,6 @@
                                 <td style="text-align: center;">
                                     <br/>
                                     <t t-esc="doc.narration or ''" />
-                                    <br/>
-                                    <br/>
                                     <br/>
                                     <br/>
                                     <br/>
@@ -1771,8 +1765,6 @@
                                 <td style="text-align: center;">
                                     <br/>
                                     <t t-esc="doc.narration or ''" />
-                                    <br/>
-                                    <br/>
                                     <br/>
                                     <br/>
                                     <br/>
@@ -2251,8 +2243,6 @@
                                     <br/>
                                     <br/>
                                     <br/>
-                                    <br/>
-                                    <br/>
                                     <span style="text-align: center;font-size:14px;">* 1. No gravado 2. Tasa mínima 3. Tasa básica 4. Otra tasa 5. Entrega gratuita 6. No facturable 10. Exportación y Asimiladas 11. Imp.percibido 12.IVA en suspenso</span>
                                     <br/>
                                     <span style="text-align: center;font-size:14px;">* 1. Not taxed 2. Minimum rate 3. Basic rate 4. Other rate 5. Free delivery 6. Not billable 10. Export and Assimilated 11. Tax collected 12. Suspended VAT</span>
@@ -2724,8 +2714,6 @@
                                 <td style="text-align: center;">
                                     <br/>
                                     <t t-esc="doc.narration or ''" />
-                                    <br/>
-                                    <br/>
                                     <br/>
                                     <br/>
                                     <br/>
@@ -3205,8 +3193,6 @@
                                     <br/>
                                     <br/>
                                     <br/>
-                                    <br/>
-                                    <br/>
                                     <span style="text-align: center;font-size:14px;">* 1. Não tributado 2. Taxa mínima 3. Taxa básica 4. Outra taxa 5. Entrega gratuita 6. Não faturável 10. Exportação e Assimilado 11. Imposto cobrado 12. IVA suspenso</span>
                                     <br/>
                                     <span style="text-align: center;font-size:14px;">* 1. Not taxed 2. Minimum rate 3. Basic rate 4. Other rate 5. Free delivery 6. Non-billable 10. Export and Assimilation 11. Tax charged 12. VAT suspended</span>
@@ -3679,8 +3665,6 @@
                                 <td style="text-align: center;">
                                     <br/>
                                     <t t-esc="doc.narration or ''" />
-                                    <br/>
-                                    <br/>
                                     <br/>
                                     <br/>
                                     <br/>
@@ -4163,8 +4147,6 @@
                                 <td style="text-align: center;">
                                     <br/>
                                     <t t-esc="doc.narration or ''" />
-                                    <br/>
-                                    <br/>
                                     <br/>
                                     <br/>
                                     <br/>

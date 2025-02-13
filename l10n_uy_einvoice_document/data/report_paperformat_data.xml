@@ -7,11 +7,11 @@
             <field name="format">A4</field>
             <field name="orientation">Portrait</field>
             <field name="margin_top">10</field>
-            <field name="margin_bottom">0</field>
+            <field name="margin_bottom">40</field>
             <field name="header_line" eval="False" />
             <field name="header_spacing">0</field>
-            <field name="margin_left">3</field>
-            <field name="margin_right">3</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
             <field name="dpi">90</field>
         </record>
     </data>

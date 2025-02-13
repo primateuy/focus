@@ -3,21 +3,9 @@
     <template id="report_custom_template_prueba">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
-            <t t-set="document_name" t-value="doc.cfe_serie_num + dict(doc.fields_get(allfields=['cfe_type'])['cfe_type']['selection'])[doc.cfe_type]"/>
-                <t t-call="l10n_uy_einvoice_document.report_translation_document" t-lang="doc.partner_id.lang">
+                <t t-call="l10n_uy_einvoice_document.external_layout_custom">
                 </t>
             </t>
-        </t>
-    </template>
-
-
-    <template id="report_translation_document">
-        <!-- Re-browse of the record with the partner lang -->
-        <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
-        <t t-call="l10n_uy_einvoice_document.external_layout_custom">
-            <div class="page">
-                <div class="oe_structure"/>
-            </div>
         </t>
     </template>
 

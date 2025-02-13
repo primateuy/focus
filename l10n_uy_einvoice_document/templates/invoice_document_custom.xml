@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_custom_template_prueba">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="l10n_uy_einvoice_document.external_layout_custom">
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <report id="action_report_l10nuy_einvoice_custom_prueba" string="Factura Customizable" model="account.move" report_type="qweb-pdf" name="l10n_uy_einvoice_document.report_custom_template_prueba" file="l10n_uy_einvoice_document.report_custom_template_prueba" />
+
+    <record id="action_report_l10nuy_einvoice_custom_prueba" model="ir.actions.report">
+        <field name="paperformat_id" ref="l10n_uy_einvoice_document.paperformat_l10nuy_custom"/>
+        <field name="print_report_name">'%s' % (dict(object.fields_get(allfields=['cfe_type'])['cfe_type']['selection'])[object.cfe_type] + ' ' + object.name)</field>
+    </record>
+</odoo>
+	

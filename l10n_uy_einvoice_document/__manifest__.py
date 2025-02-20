@@ -14,6 +14,11 @@
         'views/res_company_view.xml',
         'views/account_move_view.xml',
     ],
+    'assets' : {
+    'web.report_assets_common': [
+        '/l10n_uy_einvoice_document/static/src/css/font.css',
+    ]
+    },
     'installable': True,
     'application': True,
     'auto_install': False,

@@ -23,7 +23,7 @@
                                 <field name="invoice_address"/>
                             </div>
                             <div class="o_setting_box">
-                                 <strong>Imprimir etiquetas</strong><br/>
+                                 <strong>Mostrar nombre del producto y descripción de ventas</strong><br/>
                                 <field name="product_tag"/>
                             </div>
                             <div class="o_setting_box">

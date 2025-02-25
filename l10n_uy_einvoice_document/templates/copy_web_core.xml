@@ -1930,7 +1930,7 @@
 
         <div style="font-family: Poppins-Regular;" t-attf-class=" article o_report_layout_standard o_company_#{company.id}_layout {{  'o_report_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}" t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % doc.company_id.layout_background_image.decode('utf-8') if doc.company_id.layout_background_image else ''}});" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
 
-            <div style="padding: 25px 25px 0px 25px;">
+            <div style="padding: 10px 10px 0px 10px;">
                 <style>
         *{
             font-family: Poppins-Regular;
@@ -1970,63 +1970,57 @@
                         </t>
                     </div>
                     <!--TABLAS CABEZAL DERECHO-->
-                    <div name="cabezal_derecho">
-                        <table style="width:100%; text-align: center;border-collapse:separate;" border="0" cellspacing="0" cellpadding="0">
-                            <tr>
-                                <t t-if=""></t>
-                                <td t-attf-style="font-size:16px; color:white; padding: 10px 0px 10px 0px; vertical-align:middle; background-color: {{doc.company_id.background_color or '#e93340'}};border-radius: 7px;">
-                                    <t t-esc="'RUT EMISOR/ISSUER TAX ID: ' + doc.company_id.vat"/>
-                                    <span class="topage" />
+                    <div style="width: 430px;" name="cabezal_derecho">
 
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="font-size:16px;padding: 20px 0px;vertical-align:middle;">
-                                    <t t-esc="'FACTURA/INVOICE: ' + dict(doc.fields_get(allfields=['cfe_type'])['cfe_type']['selection'])[doc.cfe_type]"/>
-                                </td>
-                            </tr>
-                        </table>
-                        <table style="width:100%; margin-bottom:10px;text-align: center;border-collapse:separate;" border="0" cellspacing="0" cellpadding="0">
-                            <tr>
-                                <td t-attf-style="font-size:10px;padding: 5px 10px 5px 10px;color: white;vertical-align:middle; background-color: {{doc.company_id.background_color or '#e93340'}};border-top-left-radius: 7px;border-bottom-left-radius: 7px;">SERIE/SERIAL</td>
-                                <td t-attf-style="font-size:10px;padding: 5px 10px 5px 10px;color: white;vertical-align:middle; background-color: {{doc.company_id.background_color or '#e93340'}};">NÚMERO/NUMBER</td>
-                                <td t-attf-style="font-size:10px;padding: 5px 10px 5px 10px;color: white;vertical-align:middle; background-color: {{doc.company_id.background_color or '#e93340'}};">PAGO/PAYMENT</td>
-                                <td t-attf-style="font-size:10px;padding: 5px 10px 5px 10px;color: white;vertical-align:middle; background-color: {{doc.company_id.background_color or '#e93340'}};border-top-right-radius: 7px;border-bottom-right-radius: 7px;">MONEDA/CURRENCY</td>
-                            </tr>
-                            <tr>
-                                <td style="font-size:15px;padding: 5px 10px 5px 10px;vertical-align:middle;">
-                                    <t t-esc="doc.cfe_serie_num.split('-')[1]"/>
-                                </td>
-                                <td style="font-size:15px;padding: 5px 10px 5px 10px;vertical-align:middle;">
-                                    <t t-esc="doc.cfe_serie_num.split('-')[2]"/>
-                                </td>
-                                <td style="font-size:15px;padding: 5px 10px 5px 10px;vertical-align:middle;">
-                                    <t t-esc="doc.invoice_payment_term_id.name"/>
-                                </td>
-                                <td style="font-size:15px;padding: 5px 10px 5px 10px;vertical-align:middle;">
-                                    <t t-esc="doc.currency_id.name"/>
-                                </td>
-                            </tr>
-                        </table>
-                        <table style="width:100%; margin-bottom:10px; text-align: center; border-collapse:separate;" border="0" cellspacing="0" cellpadding="0">
-                            <tr>
-                                <td t-attf-style="font-size:16px; color:white; padding: 10px 20px 10px 20px;vertical-align:middle; background-color: {{doc.company_id.background_color or '#e93340'}};border-radius: 7px;">RECEPTOR/RECEIVER</td>
-                            </tr>
-                            <tr style="font-size: 14px;">
-                                <td>
-                                    <br/>
-                                    <t t-attf-style="mt-3" t-esc="doc.partner_id.social_reason or ''"/>
-                                    <br/>
-                                    <br/>
-                                    <t t-attf-style="mt-3" t-esc="doc.partner_id.street or '' + doc.partner_id.street2 or ''"/>
-                                    <br/>
-                                    <br/>
-                                    <t t-esc="doc.partner_id.state_id.name or ''"/>
-                                    <t t-esc=" ', '"/>
-                                    <t t-esc="doc.partner_id.country_id.name"/>
-                                </td>
-                            </tr>
-                        </table>
+<div t-attf-style="width:100%; text-align: center; border-radius: 7px; background-color: {{doc.company_id.background_color or '#e93340'}}; padding: 10px 0; color: white; font-size: 16px;">
+    <t t-esc="'RUT EMISOR/ISSUER TAX ID: ' + doc.company_id.vat"/>
+    <span class="topage" />
+</div>
+
+<div style="width:100%; text-align: center; padding: 20px 0; font-size: 16px;">
+    <t t-esc="'FACTURA/INVOICE: ' + dict(doc.fields_get(allfields=['cfe_type'])['cfe_type']['selection'])[doc.cfe_type]"/>
+</div>
+
+<div t-attf-style="width:100%; text-align: center; margin-bottom: 10px; display: -webkit-box; display: -webkit-flex; display: -moz-box; display: -ms-flexbox; display: flex; -webkit-box-pack: justify; -webkit-justify-content: space-between; justify-content: space-between; background-color: {{doc.company_id.background_color or '#e93340'}}; border-radius: 7px; color: white; font-size: 10px; padding: 5px 10px;">
+    <div style="-webkit-box-flex:1; -webkit-flex:1; flex:1;">SERIE/SERIAL</div>
+    <div style="-webkit-box-flex:1; -webkit-flex:1; flex:1;">NÚMERO/NUMBER</div>
+    <div style="-webkit-box-flex:1; -webkit-flex:1; flex:1;">PAGO/PAYMENT</div>
+    <div style="-webkit-box-flex:1; -webkit-flex:1; flex:1;">MONEDA/CURRENCY</div>
+</div>
+
+<div style="width:100%; text-align: center; display: -webkit-box; display: -webkit-flex; display: -moz-box; display: -ms-flexbox; display: flex; -webkit-box-pack: justify; -webkit-justify-content: space-between; justify-content: space-between; padding: 5px 10px; font-size: 15px;">
+    <div style="-webkit-box-flex:1; -webkit-flex:1; flex:1;">
+        <t t-esc="doc.cfe_serie_num.split('-')[1]"/>
+    </div>
+    <div style="-webkit-box-flex:1; -webkit-flex:1; flex:1;">
+        <t t-esc="doc.cfe_serie_num.split('-')[2]"/>
+    </div>
+    <div style="-webkit-box-flex:1; -webkit-flex:1; flex:1;">
+        <t t-if="doc.invoice_payment_term_id.name != 'Immediate Payment'">
+            <t t-esc="doc.invoice_payment_term_id.name"/>
+        </t>
+        <t t-else="">
+            <span style="line-height: 0.2; vertical-align:top;">Immediate<br/>Payment</span>
+        </t>
+    </div>
+    <div style="-webkit-box-flex:1; -webkit-flex:1; flex:1;">
+        <t t-esc="doc.currency_id.name"/>
+    </div>
+</div>
+
+<div t-attf-style="width:100%; text-align: center; border-radius: 7px; background-color: {{doc.company_id.background_color or '#e93340'}}; padding: 10px 20px; color: white; font-size: 16px; margin-top: 10px;">
+    RECEPTOR/RECEIVER
+</div>
+
+<div style="margin-top: 8px; width:100%; text-align: center; font-size: 14px; padding: 10px 0;">
+    <t t-esc="doc.partner_id.social_reason or ''"/>
+    <br/><br/>
+    <t t-esc="doc.partner_id.street or '' + doc.partner_id.street2 or ''"/>
+    <br/><br/>
+    <t t-esc="doc.partner_id.state_id.name or ''"/>, <t t-esc="doc.partner_id.country_id.name"/>
+</div>
+
+
                     </div>
                 </div>
                 <!-- BODY -->
@@ -2067,8 +2061,8 @@
                             <thead>
                                 <tr style=" font-size: 10px; border-bottom:none; ">
                                     <td t-attf-style="width: 5%; padding: 5px 5px 1px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none; border-top-left-radius:7px;">CODIGO</td>
-                                    <td t-attf-style="width: 35%; padding: 5px 5px 1px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none;">DESCRIPCIÓN</td>
-                                    <td t-attf-style="width: 35%; padding: 5px 5px 1px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none;">ETIQUETA</td>
+                                    <td t-attf-style="width: 20%; padding: 5px 5px 1px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none;">PRODUCTO</td>
+                                    <td t-attf-style="width: 50%; padding: 5px 5px 1px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none;">DESCRIPCIÓN</td>
                                     <td t-attf-style="width: 5%; padding: 5px 5px 1px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none;">UNIDAD</td>
                                     <td t-attf-style="width: 5%; padding: 5px 5px 1px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none;">CANTIDAD</td>
                                     <td t-attf-style="width: 5%; padding: 5px 5px 1px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none;">PRECIO</td>
@@ -2077,8 +2071,8 @@
                                 </tr>
                                 <tr t-attf-style=" border-top:none; padding-bottom: 10px; font-size: 10px;">
                                     <td t-attf-style="padding: 1px 5px 5px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none; border-bottom-left-radius: 7px;">CODE</td>
+                                    <td t-attf-style="padding: 1px 5px 5px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none;">PRODUCT</td>
                                     <td t-attf-style="padding: 1px 5px 5px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none;">DESCRIPTION</td>
-                                    <td t-attf-style="padding: 1px 5px 5px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none;">LABEL</td>
                                     <td t-attf-style="padding: 1px 5px 5px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none;">UNIT</td>
                                     <td t-attf-style="padding: 1px 5px 5px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none;">QUNATITY</td>
                                     <td t-attf-style="padding: 1px 5px 5px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none;">PRICE</td>
@@ -2086,7 +2080,7 @@
                                     <td t-attf-style="padding: 1px 5px 5px 5px; background-color: {{doc.company_id.background_color or '#e93340'}}; color:white; border:none; border-bottom-right-radius: 7px;">AMOUNT</td>
                                 </tr>
                             </thead>
-                            <tbody style="border:none;" class="invoice_tbody">
+                            <tbody style="border:none; " class="invoice_tbody">
                                 <tr t-foreach="doc.invoice_line_ids" t-as="l">
                                     <td style="padding-left:5px; " class="text-left">
                                         <span t-field="l.product_id.id"/>
@@ -2193,10 +2187,100 @@
                         <t t-set="exportacion" t-value="l.credit"/>
                     </t>
                 </t>
+                <t t-set="cantidad_lineas" t-value="len(doc.invoice_line_ids)"/>
+                <t t-if="cantidad_lineas == 1">
+                <br/>
+                <br/>
+                <br/>   
+                <br/>   
+                <br/>   
+                <br/>   
+                <br/>   
+                <br/>   
+                <br/>
+                <br/>   
+                <br/>
+                <t t-if="not doc.narration">
+                <br/>
+                <br/>   
+                <br/>
+                <br/>
+                <br/>
+                </t>      
+                </t>
+                <t t-elif="cantidad_lineas == 2">
+                <br/>   
+                <br/>   
+                <br/>   
+                <br/>   
+                <br/>   
+                <br/>   
+                <br/>   
+                <br/>   
+                <br/>
+                <t t-if="not doc.narration == ''">
+                <br/>
+                <br/>   
+                <br/>
+                <br/>
+                </t>   
+                </t>
+                <t t-elif="cantidad_lineas == 3">
+                <br/>   
+                <br/>   
+                <br/>   
+                <br/>   
+                <br/>   
+                <br/>   
+                <br/>
+                                <t t-if="not doc.narration == ''">
+                <br/>
+                <br/>   
+                <br/>
+                <br/>
+                </t>   
+                </t>
+                <t t-elif="cantidad_lineas == 4">
+                <br/>   
+                <br/>   
+                <br/>   
+                <br/>   
+                <br/>
+                                <t t-if="not doc.narration == ''">
+                <br/>
+                <br/>   
+                <br/>
+                </t>   
+                </t>
+                <t t-elif="cantidad_lineas == 5">
+                <br/>   
+                <br/>   
+                <br/>
+                                <t t-if="not doc.narration == ''">
+                <br/>
+                <br/>   
+                <br/>
+                </t>   
+                </t>
 
+                <t t-elif="cantidad_lineas == 6">
                 <br/>
+                <t t-if="not doc.narration == ''">
                 <br/>
+                <br/>   
                 <br/>
+                </t>   
+                </t>
+
+
+                <t t-else="">
+                <br/>   
+                <br/>   
+                <br/>   
+                <br/>   
+                <br/>   
+                <br/>   
+                </t>
 
                 <div style="page-break-inside: avoid;">
                     <!-- TOTALES -->
@@ -2209,7 +2293,7 @@
                             </div>
 
 
-                            <div style="padding: 5px; display: -webkit-box; -webkit-box-pack: justify; font-size:16px">
+                            <div style="padding: 5px; display: -webkit-box; -webkit-box-pack: justify; font-size:14px">
                                 <div>
                                     <t t-if="ivaE">
                                         <span>No Gravado / Not Taxed</span>   <br/>
@@ -2237,9 +2321,9 @@
                                 <div>
                                     <t t-if="ivaE">
                                         <span>
-                                            <t t-esc="doc.currency_id.symbol + ' ' + '{:,.2f}'.format(ivaE)"/>
-                                                                                <br/>
-</span>
+                                        <t t-esc="doc.currency_id.symbol + ' ' + '{:,.2f}'.format(ivaE)"/>
+                                           <br/>
+                                        </span>
                                     </t>
                                     <t t-if="iva10">
                                         <span>
@@ -2286,11 +2370,7 @@
                                         <t t-esc="'{:,.2f}'.format(doc.amount_total)"/>
                                     </span>
                                 </div>
-
                             </div>
-
-
-
                         </div>
                     </div>
 
@@ -2298,27 +2378,22 @@
                     <!-- ADENDA -->
 
                     <div style="text-align: center;">
-                        <table t-attf-style="border: 5px solid {{doc.company_id.background_color or '#e93340'}}; width:100%;border-collapse:separate; border-radius: 10px" cellspacing="0" cellpadding="0">
-                            <tr>
-                                <td t-attf-style="padding: 7px 0px; color: white; text-align: center;font-size:16px;vertical-align:middle; background-color: {{doc.company_id.background_color or '#e93340'}}; ">ADENDA/COMMENTS</td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: center;">
+                        <div t-attf-style="border: 5px solid {{doc.company_id.background_color or '#e93340'}}; width:100%;border-radius: 10px" >
+                            <div t-attf-style="padding: 7px 0px; color: white; text-align: center;font-size:16px;vertical-align:middle; background-color: {{doc.company_id.background_color or '#e93340'}}; ">
+                                ADENDA/COMMENTS
+                            </div>
+                            <div style="text-align: center;">
+                                <t t-if="doc.narration">
                                     <br/>
-                                    <t t-if="doc.narration != ''">
-                                        <t t-esc="doc.narration or ''" />
-                                        <br/>
-                                        <br/>
-
-                                    </t>
-
-                                    <span style="text-align: center;font-size:14px;">* 1. No gravado 2. Tasa mínima 3. Tasa básica 4. Otra tasa 5. Entrega gratuita 6. No facturable 10. Exportación y Asimiladas 11. Imp.percibido 12.IVA en suspenso</span>
+                                    <t t-esc="doc.narration" style="font-size:13px;" />
                                     <br/>
-                                    <span style="text-align: center;font-size:14px;">* 1. Not taxed 2. Minimum rate 3. Basic rate 4. Other rate 5. Free delivery 6. Not billable 10. Export and Assimilated 11. Tax collected 12. Suspended VAT</span>
-                                    <br/>
-                                </td>
-                            </tr>
-                        </table>
+                                </t>
+                                <span style="text-align: center;font-size:11px;">* 1. No gravado 2. Tasa mínima 3. Tasa básica 4. Otra tasa 5. Entrega gratuita 6. No facturable 10. Exportación y Asimiladas 11. Imp.percibido 12.IVA en suspenso</span>
+                                <br/>
+                                <span style="text-align: center;font-size:11px;">* 1. Not taxed 2. Minimum rate 3. Basic rate 4. Other rate 5. Free delivery 6. Not billable 10. Export and Assimilated 11. Tax collected 12. Suspended VAT</span>
+                                <br/>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2478,7 +2553,7 @@
                             <tr>
                                 <td t-attf-style="font-size:10px;padding: 5px 10px 5px 10px;color: white;vertical-align:middle; background-color: {{doc.company_id.background_color or '#e93340'}};border-top-left-radius: 7px;border-bottom-left-radius: 7px;">SERIE/SERIAL</td>
                                 <td t-attf-style="font-size:10px;padding: 5px 10px 5px 10px;color: white;vertical-align:middle; background-color: {{doc.company_id.background_color or '#e93340'}};">NÚMERO/NUMBER</td>
-                                <td t-attf-style="font-size:10px;padding: 5px 10px 5px 10px;color: white;vertical-align:middle; background-color: {{doc.company_id.background_color or '#e93340'}};">PAGO/PAYMENT</td>
+                                <td t-attf-style="width:50px; font-size:10px;padding: 5px 10px 5px 10px;color: white;vertical-align:middle; background-color: {{doc.company_id.background_color or '#e93340'}};">PAGO/PAYMENT</td>
                                 <td t-attf-style="font-size:10px;padding: 5px 10px 5px 10px;color: white;vertical-align:middle; background-color: {{doc.company_id.background_color or '#e93340'}};border-top-right-radius: 7px;border-bottom-right-radius: 7px;">MONEDA/CURRENCY</td>
                             </tr>
                             <tr>
@@ -2488,10 +2563,19 @@
                                 <td style="font-size:15px;padding: 5px 10px 5px 10px;vertical-align:middle;">
                                     <t t-esc="doc.cfe_serie_num.split('-')[2]"/>
                                 </td>
-                                <td style="font-size:15px;padding: 5px 10px 5px 10px;vertical-align:middle;">
+                                <td t-afft-style="width:50px; font-size:15px; padding: 5px 10px 5px 10px; vertical-align:middle; white-space: normal; word-wrap: break-word; word-break: break-all;">
+                                    <t t-if="doc.invoice_payment_term_id.name !='Immediate Paymment'">
+                                        <t t-esc="doc.invoice_payment_term_id.name"/>
+                                    </t>
+                                    <t t-else="">
+                                    <span>
+                                    Immediate  <br/>Payment
+                                    </span>
+                                    </t>
                                     <t t-esc="doc.invoice_payment_term_id.name"/>
+                                    <t t-esc="doc.invoice_payment_term_id.name" t-afft-style="width:50px; white-space: normal; word-wrap: break-word; word-break: break-all;"/>
                                 </td>
-                                <td style="font-size:15px;padding: 5px 10px 5px 10px;vertical-align:middle;">
+                                <td style="font-size:15px;padding: 5px 10px 5px 10px; vertical-align:middle;">
                                     <t t-esc="doc.currency_id.name"/>
                                 </td>
                             </tr>
